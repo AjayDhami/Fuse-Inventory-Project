@@ -37,14 +37,12 @@ public class UserRESTController {
     @PutMapping("/updateUser/{id}")
     public User updateUser(@PathVariable("id") int userId, @RequestBody User user) {
         LOGGER.info("Inside updateUser(). User: " + user);
-        User updateUser = userService.getUserById(userId);
-        return userService.updateUser(updateUser);
+        return userService.updateUser(userId, user);
     }
 
     @DeleteMapping("deleteUser/{id}")
     public void deleteUser(@PathVariable("id") int userId) {
         LOGGER.info("Inside deleteUser(). User Id: " + userId);
-        User deleteUser = userService.getUserById(userId);
-        userService.deleteUser(deleteUser);
+        userService.deleteUser(userId);
     }
 }

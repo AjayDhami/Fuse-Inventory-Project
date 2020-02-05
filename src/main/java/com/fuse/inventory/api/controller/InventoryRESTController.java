@@ -18,9 +18,9 @@ public class InventoryRESTController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryRESTController.class);
 
     @PostMapping("/saveItem")
-    public Inventory saveItem(@RequestBody Inventory inventory) {
-        LOGGER.info("Inside saveUser(). User: " + inventory);
-        return inventoryService.saveItem(inventory);
+    public Inventory saveItem(@RequestBody Inventory item) {
+        LOGGER.info("Inside saveUser(). User: " + item);
+        return inventoryService.saveItem(item);
     }
 
     @GetMapping("/getAllItems")
@@ -35,16 +35,38 @@ public class InventoryRESTController {
     }
 
     @PutMapping("/updateItem/{id}")
-    public Inventory updateItem(@PathVariable("id") int itemId, @RequestBody Inventory inventory) {
-        LOGGER.info("Inside updateItem(). Inventory: " + inventory);
-        Inventory updateInventory = inventoryService.getItemById(itemId);
-        return inventoryService.updateItem(updateInventory);
+    public Inventory updateItem(@PathVariable("id") int itemId, @RequestBody Inventory item) {
+        LOGGER.info("Inside updateItem(). Inventory: " + item);
+        return inventoryService.updateItem(itemId, item);
     }
 
     @DeleteMapping("deleteItem/{id}")
     public void deleteItem(@PathVariable("id") int itemId) {
         LOGGER.info("Inside deleteItem(). Item Id: " + itemId);
-        Inventory deleteInventory = inventoryService.getItemById(itemId);
-        inventoryService.deleteItem(deleteInventory);
+        inventoryService.deleteItem(itemId);
+    }
+
+    /* Searching items by name of the item*/
+    @GetMapping("/searchItemsByName/{name}")
+    public List<Inventory> searchItemsByName(@PathVariable("name") String name) {
+        LOGGER.info("Inside searchItemsByName(). Item Name: " + name);
+        return inventoryService.searchItemsByName(name);
+    }
+
+    /* Searching items by inventory type */
+    @GetMapping("/searchItemsByInventoryType/{name}")
+    public List<Inventory> searchItemsByInventoryType(@PathVariable("name") String name) {
+        LOGGER.info("Inside searchItemsByInventoryType(). Item Name: " + name);
+        return inventoryService.searchItemsByInventoryType(name);
+    }
+
+
+    /* Searching quantity of particular item by its name */
+    @GetMapping("/searchQuantityOfParticularItem/{name}")
+    public String searchQuantityOfParticularItem(@PathVariable("name") String name) {
+        LOGGER.info("Inside searchQuantityOfParticularItem(). Item Name: " + name);
+        int leftAmount = inventoryService.searchQuantityOfParticularItem(name);
+        String msg = "Quantity of " + name + " left in the inventory is: " + leftAmount;
+        return msg;
     }
 }

@@ -28,15 +28,8 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Inventory saveItem(Inventory item) {
-        User userDetails = userRepository.findUserById(item.getUid());
-        LOGGER.info("Inside saveUser(). Details of User is: " + userDetails);
-        if (userDetails == null) {
-            throw new UserNotFoundException("Item can't be added to inventory since User is not found", item.getUid());
-        }
-        String addedByUserName = userDetails.getName();
-        String addedByMessage = addedByUserName + " has added a new " + item.getName() + " in the " + item.getType() + " inventory.";
-        item.setAddedby(addedByMessage);
-        LOGGER.info("Complete Item Details: " + item);
+        String addedBy = setUserNameUsingUserId(item);
+        item.setAddedby(addedBy);
         return inventoryRepository.save(item);
     }
 
@@ -55,12 +48,63 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Inventory updateItem(Inventory item) {
-        return inventoryRepository.save(item);
+    public Inventory updateItem(int itemId, Inventory item) {
+
+        Optional<Inventory> optionalInventory = inventoryRepository.findById(itemId);
+        if (optionalInventory.isPresent()) {
+            Inventory newItem = optionalInventory.get();
+            newItem.setName(item.getName());
+            newItem.setType(item.getType());
+            newItem.setUid(item.getUid());
+
+            String addedBy = setUserNameUsingUserId(item);
+            newItem.setAddedby(addedBy);
+
+            return inventoryRepository.save(newItem);
+
+        } else {
+            String addedBy = setUserNameUsingUserId(item);
+            item.setAddedby(addedBy);
+
+            return inventoryRepository.save(item);
+        }
     }
 
     @Override
-    public void deleteItem(Inventory item) {
-        inventoryRepository.delete(item);
+    public void deleteItem(int itemId) {
+        Inventory itemToBeDeleted = inventoryRepository.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item not found ", itemId));
+        inventoryRepository.delete(itemToBeDeleted);
+    }
+
+    @Override
+    public List<Inventory> searchItemsByName(String name) {
+        List<Inventory> searchedItemsByName = inventoryRepository.searchItemsByName(name);
+        return searchedItemsByName;
+    }
+
+    @Override
+    public List<Inventory> searchItemsByInventoryType(String name) {
+        List<Inventory> searchedItemsByInventoryType = inventoryRepository.searchItemsByInventoryType(name);
+        return searchedItemsByInventoryType;
+    }
+
+    @Override
+    public int searchQuantityOfParticularItem(String name) {
+        int searchedQuantityOfParticularItem = inventoryRepository.searchQuantityOfParticularItem(name);
+        return searchedQuantityOfParticularItem;
+    }
+
+
+    /*Set user name by using user id obtained from inventory*/
+    private String setUserNameUsingUserId(Inventory item) {
+        User userDetails = userRepository.findUserById(item.getUid());
+        LOGGER.info("Inside saveUser(). Details of User is: " + userDetails);
+        if (userDetails == null) {
+            throw new UserNotFoundException("Item can't be added to inventory since User is not found", item.getUid());
+        }
+        String addedByUserName = userDetails.getName();
+        String addedByMessage = addedByUserName + " has added a new " + item.getName() + " in the " + item.getType() + " inventory.";
+
+        return addedByMessage;
     }
 }

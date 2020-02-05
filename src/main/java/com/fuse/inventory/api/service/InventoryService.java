@@ -12,7 +12,17 @@ public interface InventoryService {
 
     Inventory getItemById(int itemId);
 
-    Inventory updateItem(Inventory item);
+    Inventory updateItem(int itemId, Inventory item);
 
-    void deleteItem(Inventory item);
+    void deleteItem(int itemId);
+
+    /* Searching items by name */
+    List<Inventory> searchItemsByName(String name);
+
+    /* Searching items by type */
+    List<Inventory> searchItemsByInventoryType(String name);
+
+
+    /* Searching Quantity of particular Item by using provided item name */
+    int searchQuantityOfParticularItem(String name);
 }
