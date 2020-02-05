@@ -1,6 +1,7 @@
 package com.fuse.inventory.api.service;
 
 import com.fuse.inventory.api.model.Inventory;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -25,4 +26,7 @@ public interface InventoryService {
 
     /* Searching Quantity of particular Item by using provided item name */
     int searchQuantityOfParticularItem(String name);
+
+    /*View the Paginated List of Items in the inventory*/
+    Page<Inventory> getAllItemsByPages(int pageNumber, int numberOfElementsPerPage,String sortBy);
 }

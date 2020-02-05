@@ -1,6 +1,5 @@
 package com.fuse.inventory.api.service;
 
-import com.fuse.inventory.api.controller.InventoryRESTController;
 import com.fuse.inventory.api.exception.ItemNotFoundException;
 import com.fuse.inventory.api.exception.UserNotFoundException;
 import com.fuse.inventory.api.model.Inventory;
@@ -10,6 +9,9 @@ import com.fuse.inventory.api.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -92,6 +94,12 @@ public class InventoryServiceImpl implements InventoryService {
     public int searchQuantityOfParticularItem(String name) {
         int searchedQuantityOfParticularItem = inventoryRepository.searchQuantityOfParticularItem(name);
         return searchedQuantityOfParticularItem;
+    }
+
+    /*View the Paginated List of Items in the inventory*/
+    @Override
+    public Page<Inventory> getAllItemsByPages(int pageNumber, int numberOfElementsPerPage, String sortBy) {
+        return inventoryRepository.findAll(PageRequest.of(pageNumber, numberOfElementsPerPage, Sort.by(sortBy)));
     }
 
 

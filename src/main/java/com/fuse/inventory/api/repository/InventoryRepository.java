@@ -18,4 +18,5 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 
     @Query(value = "select count(*) from inventory where name=:name", nativeQuery = true)
     int searchQuantityOfParticularItem(@Param("name") String name);
+
 }

@@ -5,6 +5,7 @@ import com.fuse.inventory.api.service.InventoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,4 +70,11 @@ public class InventoryRESTController {
         String msg = "Quantity of " + name + " left in the inventory is: " + leftAmount;
         return msg;
     }
+
+    /*View the Paginated List of Items in the inventory*/
+    @GetMapping("/getAllItemsByPages/{pageNumber}/{numberOfElementsPerPage}/{sortBy}")
+    public Page<Inventory> getAllItemsByPages(@PathVariable("pageNumber") String pageNumber, @PathVariable("numberOfElementsPerPage") String numberOfElementsPerPage, @PathVariable("sortBy") String sortBy) {
+        return inventoryService.getAllItemsByPages(Integer.parseInt(pageNumber), Integer.parseInt(numberOfElementsPerPage), sortBy);
+    }
+
 }
