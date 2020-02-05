@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
-
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
@@ -28,9 +27,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserById(int userId) {
-        Optional<User> optionalUser=userRepository.findById(userId);
-        if(!optionalUser.isPresent()){
-            throw new UserNotFoundException("User not found",userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException("User not found", userId);
         }
         return optionalUser.get();
     }

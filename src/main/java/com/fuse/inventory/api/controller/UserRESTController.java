@@ -18,33 +18,33 @@ public class UserRESTController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
 
     @PostMapping("/saveUser")
-    public User saveUser(@RequestBody User user){
+    public User saveUser(@RequestBody User user) {
         LOGGER.info("Inside saveUser(). User: " + user);
         return userService.saveUser(user);
     }
 
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/getUserById/{id}")
-    public User getUserById(@PathVariable("id") int userId){
+    public User getUserById(@PathVariable("id") int userId) {
         LOGGER.info("Inside getUserById(). User Id: " + userId);
         return userService.getUserById(userId);
     }
 
     @PutMapping("/updateUser/{id}")
-    public User updateUser(@PathVariable("id") int userId,@RequestBody User user){
+    public User updateUser(@PathVariable("id") int userId, @RequestBody User user) {
         LOGGER.info("Inside updateUser(). User: " + user);
-        User updateUser=userService.getUserById(userId);
+        User updateUser = userService.getUserById(userId);
         return userService.updateUser(updateUser);
     }
 
     @DeleteMapping("deleteUser/{id}")
-    public void deleteUser(@PathVariable("id")int userId){
+    public void deleteUser(@PathVariable("id") int userId) {
         LOGGER.info("Inside deleteUser(). User Id: " + userId);
-        User deleteUser=userService.getUserById(userId);
+        User deleteUser = userService.getUserById(userId);
         userService.deleteUser(deleteUser);
     }
 }
