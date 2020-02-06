@@ -72,6 +72,7 @@ public class InventoryRESTController {
 
     /*Display the name of item and frequency of that item in inventory*/
     @GetMapping("/searchItemsByQuantity")
+    @ApiOperation(value = "Search Items by quantity and display items  and no of the items in the inventory")
     public Map<String,String>searchItemsByQuantity() {
         LOGGER.info("Inside searchItemsByQuantity()");
         return inventoryService.searchItemsByQuantity();
