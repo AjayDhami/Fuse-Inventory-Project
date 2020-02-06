@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class InventoryRESTController {
@@ -60,6 +61,12 @@ public class InventoryRESTController {
         return inventoryService.searchItemsByInventoryType(name);
     }
 
+    /*Display the name of item and frequency of that item in inventory*/
+    @GetMapping("/searchItemsByQuantity")
+    public Map<String,String>searchItemsByQuantity() {
+        LOGGER.info("Inside searchItemsByQuantity()");
+        return inventoryService.searchItemsByQuantity();
+    }
 
     /* Searching quantity of particular item by its name */
     @GetMapping("/searchQuantityOfParticularItem/{name}")

@@ -3,6 +3,7 @@ package com.fuse.inventory.api.service;
 import com.fuse.inventory.api.model.Inventory;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InventoryService {
 
@@ -21,6 +22,9 @@ public interface InventoryService {
 
     /* Searching items by type */
     List<Inventory> searchItemsByInventoryType(String name);
+
+    /*Display the name of item and frequency of that item in inventory*/
+    Map<String,String> searchItemsByQuantity();
 
 
     /* Searching Quantity of particular Item by using provided item name */

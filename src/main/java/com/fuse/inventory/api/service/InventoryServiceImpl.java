@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -86,6 +88,18 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Inventory> searchItemsByInventoryType(String name) {
         List<Inventory> searchedItemsByInventoryType = inventoryRepository.searchItemsByInventoryType(name);
         return searchedItemsByInventoryType;
+    }
+
+    @Override
+    public Map<String,String> searchItemsByQuantity() {
+       Map<String,String> map=new HashMap<>();
+       for(Inventory inventory:inventoryRepository.searchItemsByQuantity()){
+           String key=inventory.getName();
+           String value=inventory.getType();
+
+           map.put(key,value);
+       }
+       return map;
     }
 
     @Override
