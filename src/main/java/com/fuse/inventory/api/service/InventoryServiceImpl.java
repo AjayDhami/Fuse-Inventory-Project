@@ -91,15 +91,12 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Map<String,String> searchItemsByQuantity() {
-       Map<String,String> map=new HashMap<>();
-       for(Inventory inventory:inventoryRepository.searchItemsByQuantity()){
-           String key=inventory.getName();
-           String value=inventory.getType();
-
-           map.put(key,value);
-       }
-       return map;
+    public Map<String, String> searchItemsByQuantity() {
+        Map<String, String> map = new HashMap<>();
+        for (Object[] resultValues : inventoryRepository.searchItemsByQuantity()) {
+            map.put(resultValues[0].toString(), resultValues[1].toString());
+        }
+        return map;
     }
 
     @Override
