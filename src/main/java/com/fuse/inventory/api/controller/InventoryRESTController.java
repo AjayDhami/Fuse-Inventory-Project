@@ -20,19 +20,22 @@ public class InventoryRESTController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryRESTController.class);
 
+    /*Save new Item to the Inventory*/
     @PostMapping("/saveItem")
-    @ApiOperation(value = "Save new Item to Inventory")
+    @ApiOperation(value = "Save new Item to the Inventory")
     public Inventory saveItem(@RequestBody Inventory item) {
         LOGGER.info("Inside saveItem(). Item: " + item);
         return inventoryService.saveItem(item);
     }
 
+    /*List all items and their corresponding details from the Inventory*/
     @GetMapping("/getAllItems")
     @ApiOperation(value = "List all items and their corresponding details from the Inventory")
     public List<Inventory> getAllItems() {
         return inventoryService.getAllItems();
     }
 
+    /*Get particular Item and its details from Inventory using provided Item ID*/
     @GetMapping("/getItemById/{id}")
     @ApiOperation(value = "Get particular Item and its details from Inventory using provided Item ID")
     public Inventory getItemById(@PathVariable("id") int itemId) {
@@ -40,6 +43,7 @@ public class InventoryRESTController {
         return inventoryService.getItemById(itemId);
     }
 
+    /*Update particular Item Details by using provided Item ID and save that Item to Inventory*/
     @PutMapping("/updateItem/{id}")
     @ApiOperation(value = "Update particular Item Details by using provided Item ID and save that Item to Inventory")
     public Inventory updateItem(@PathVariable("id") int itemId, @RequestBody Inventory item) {
@@ -47,6 +51,7 @@ public class InventoryRESTController {
         return inventoryService.updateItem(itemId, item);
     }
 
+    /*Delete particular Item and its details from Inventory using provided Item ID*/
     @DeleteMapping("deleteItem/{id}")
     @ApiOperation(value = "Delete particular Item and its details from Inventory using provided Item ID")
     public void deleteItem(@PathVariable("id") int itemId) {
@@ -54,7 +59,7 @@ public class InventoryRESTController {
         inventoryService.deleteItem(itemId);
     }
 
-    /* Searching items by name of the item*/
+    /* Search item by Item Name */
     @ApiOperation(value = "Search Items from Inventory using provided Item Name and display those results")
     @GetMapping("/searchItemsByName/{name}")
     public List<Inventory> searchItemsByName(@PathVariable("name") String name) {
@@ -62,7 +67,7 @@ public class InventoryRESTController {
         return inventoryService.searchItemsByName(name);
     }
 
-    /* Searching items by inventory type */
+    /* Search item by Inventory Type */
     @GetMapping("/searchItemsByInventoryType/{name}")
     @ApiOperation(value = "Search Items from Inventory using provided Inventory Type and display those results")
     public List<Inventory> searchItemsByInventoryType(@PathVariable("name") String name) {
@@ -70,23 +75,31 @@ public class InventoryRESTController {
         return inventoryService.searchItemsByInventoryType(name);
     }
 
-    /*Display the name of item and frequency of that item in inventory*/
-    @GetMapping("/searchItemsByQuantity")
-    @ApiOperation(value = "Search Items by quantity and display items  and no of the items in the inventory")
-    public Map<String, String> searchItemsByQuantity() {
-        LOGGER.info("Inside searchItemsByQuantity()");
-        return inventoryService.searchItemsByQuantity();
+
+    /* Search item by Quantity of Item */
+    @GetMapping("/searchItemsByQuantity/{quantityOfItem}")
+    @ApiOperation(value = "Search Items from Inventory using provided Quantity and display the corresponding items(s)")
+    public List<String> searchItemsByQuantity(@PathVariable("quantityOfItem") String quantityOfItem) {
+        LOGGER.info("Inside searchItemsByInventoryType(). Quantity of Item: " + quantityOfItem);
+        return inventoryService.searchItemsByQuantity(Integer.parseInt(quantityOfItem));
     }
 
-    /* Searching quantity of particular item by its name */
+    /*Display the name of items and frequency of those items*/
+    @GetMapping("/showItemsNameAndQuantityOfItem")
+    @ApiOperation(value = "Display items and corresponding frequency of those items in the inventory")
+    public Map<String, String> showItemsNameAndQuantityOfItem() {
+        LOGGER.info("Inside showItemsNameAndQuantityOfItem()");
+        return inventoryService.showItemsNameAndQuantityOfItem();
+    }
+
+    /*Search Quantity of Item using provided Item Name*/
     @GetMapping("/searchQuantityOfParticularItem/{name}")
     @ApiOperation(value = "Search Quantity from Inventory of particular Item and display the result")
     public String searchQuantityOfParticularItem(@PathVariable("name") String name) {
         LOGGER.info("Inside searchQuantityOfParticularItem(). Item Name: " + name);
         int leftAmount = inventoryService.searchQuantityOfParticularItem(name);
-        return  "Quantity of " + name + " left in the inventory is: " + leftAmount;
+        return "Quantity of " + name + " left in the inventory is: " + leftAmount;
     }
-
 
     /*Update Quantity of Particular Item in the inventory*/
     @PutMapping("updateQuantityOfParticularItem/{userId}/{itemName}/{newValueOfItem}")
@@ -95,7 +108,6 @@ public class InventoryRESTController {
         LOGGER.info("Inside updateQuantityOfParticularItem(). Item Name: " + itemName + " and Item new Value to update is:" + newValueOfItem);
         return inventoryService.updateQuantityOfParticularItem(Integer.parseInt(userId), itemName, Integer.parseInt(newValueOfItem));
     }
-
 
     /*View the Paginated List of Items in the inventory*/
     @GetMapping("/getAllItemsByPages/{pageNumber}/{numberOfElementsPerPage}/{sortBy}")

@@ -2,38 +2,44 @@ package com.fuse.inventory.api.service;
 
 import com.fuse.inventory.api.model.Inventory;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
 
 public interface InventoryService {
 
+    /*Save new Item to the Inventory*/
     Inventory saveItem(Inventory item);
 
+    /*List all items and their corresponding details from the Inventory*/
     List<Inventory> getAllItems();
 
+    /*Get particular Item and its details from Inventory using provided Item ID*/
     Inventory getItemById(int itemId);
 
+    /*Update particular Item Details by using provided Item ID and save that Item to Inventory*/
     Inventory updateItem(int itemId, Inventory item);
 
+    /*Delete particular Item and its details from Inventory using provided Item ID*/
     void deleteItem(int itemId);
 
-    /* Searching items by name */
+    /* Search item by Item Name */
     List<Inventory> searchItemsByName(String name);
 
-    /* Searching items by type */
+    /* Search item by Inventory Type */
     List<Inventory> searchItemsByInventoryType(String name);
 
-    /*Display the name of item and frequency of that item in inventory*/
-    Map<String, String> searchItemsByQuantity();
+    /* Search item by Quantity of Item */
+    List<String> searchItemsByQuantity(int quantityOfItem);
 
-    /* Searching Quantity of particular Item by using provided item name */
+    /*Display the name of items and frequency of those items*/
+    Map<String, String> showItemsNameAndQuantityOfItem();
+
+    /*Search Quantity of Item using provided Item Name*/
     int searchQuantityOfParticularItem(String name);
 
     /*Update Quantity of Particular Item in the inventory*/
     String updateQuantityOfParticularItem(int userId, String itemName, int newValueOfItem);
-
 
     /*View the Paginated List of Items in the inventory*/
     Page<Inventory> getAllItemsByPages(int pageNumber, int numberOfElementsPerPage, String sortBy);

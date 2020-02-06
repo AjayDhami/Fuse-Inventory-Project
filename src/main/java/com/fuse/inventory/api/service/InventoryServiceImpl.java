@@ -94,9 +94,15 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public Map<String, String> searchItemsByQuantity() {
+    public List<String> searchItemsByQuantity(int quantityOfItem) {
+        List<String> items = inventoryRepository.searchItemsByQuantity(quantityOfItem);
+        return items;
+    }
+
+    @Override
+    public Map<String, String> showItemsNameAndQuantityOfItem() {
         Map<String, String> map = new HashMap<>();
-        for (Object[] resultValues : inventoryRepository.searchItemsByQuantity()) {
+        for (Object[] resultValues : inventoryRepository.showItemsNameAndQuantityOfItem()) {
             map.put(resultValues[0].toString(), resultValues[1].toString());
         }
         return map;
@@ -146,14 +152,12 @@ public class InventoryServiceImpl implements InventoryService {
         return message;
     }
 
-
     @Override
     public Page<Inventory> getAllItemsByPages(int pageNumber, int numberOfElementsPerPage, String sortBy) {
         return inventoryRepository.findAll(PageRequest.of(pageNumber, numberOfElementsPerPage, Sort.by(sortBy)));
     }
 
-
-    /*Set user name by using user id obtained from inventory*/
+    /*Set added by message by using user id obtained from inventory*/
     private String setUserNameUsingUserId(Inventory item) {
         User userDetails = userRepository.findUserById(item.getUid());
         LOGGER.info("Inside saveUser(). Details of User is: " + userDetails);

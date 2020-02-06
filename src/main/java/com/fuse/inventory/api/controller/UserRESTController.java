@@ -18,6 +18,7 @@ public class UserRESTController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRESTController.class);
 
+    /*Save new user*/
     @PostMapping("/saveUser")
     @ApiOperation(value = "Save new User to User DB")
     public User saveUser(@RequestBody User user) {
@@ -25,12 +26,14 @@ public class UserRESTController {
         return userService.saveUser(user);
     }
 
+    /*List all the users and their corresponding details*/
     @GetMapping("/getAllUsers")
     @ApiOperation(value = "List all users and their corresponding details from the User DB")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    /*Get particular User and its details using provided User ID*/
     @GetMapping("/getUserById/{id}")
     @ApiOperation(value = "Get particular User and its details from User DB using provided User ID")
     public User getUserById(@PathVariable("id") int userId) {
@@ -38,6 +41,7 @@ public class UserRESTController {
         return userService.getUserById(userId);
     }
 
+    /*Update particular User Details by using provided User ID and save that User*/
     @PutMapping("/updateUser/{id}")
     @ApiOperation(value = "Update particular User Details by using provided User ID and save that User to User DB")
     public User updateUser(@PathVariable("id") int userId, @RequestBody User user) {
@@ -45,6 +49,7 @@ public class UserRESTController {
         return userService.updateUser(userId, user);
     }
 
+    /*Delete particular User and its details by using provided User ID*/
     @DeleteMapping("deleteUser/{id}")
     @ApiOperation(value = "Delete particular User and its details from User DB using provided User ID")
     public void deleteUser(@PathVariable("id") int userId) {

@@ -1,6 +1,5 @@
 package com.fuse.inventory.api.model;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -46,5 +44,5 @@ public class Inventory {
             joinColumns = @JoinColumn(name = "inventory_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @ApiModelProperty(notes = "User adding the inventory")
-    private List<User> users =new ArrayList<User>();
+    private List<User> users = new ArrayList<User>();
 }

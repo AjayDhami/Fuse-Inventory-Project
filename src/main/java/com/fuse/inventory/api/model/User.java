@@ -8,7 +8,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -34,5 +33,5 @@ public class User {
 
     @ManyToMany(mappedBy = "users")
     @ApiModelProperty(notes = "Inventories added by the User")
-    private List<Inventory> inventories =new ArrayList<Inventory>();
+    private List<Inventory> inventories = new ArrayList<Inventory>();
 }

@@ -18,7 +18,6 @@ public class SwaggerConfig {
     public Docket swaggerConfiguration() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-//                .paths(PathSelectors.ant("/api/*"))
                 .apis(RequestHandlerSelectors.basePackage("com.fuse.inventory.api"))
                 .build()
                 .apiInfo(apiDetails());

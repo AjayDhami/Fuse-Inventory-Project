@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
             newUser.setEmail(user.getEmail());
             newUser.setInventories(user.getInventories());
 
-            newUser = userRepository.save(newUser);
-            return newUser;
+            return userRepository.save(newUser);
         } else {
             return userRepository.save(user);
         }
