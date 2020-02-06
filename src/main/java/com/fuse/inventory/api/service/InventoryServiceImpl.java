@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -88,6 +90,15 @@ public class InventoryServiceImpl implements InventoryService {
     public List<Inventory> searchItemsByInventoryType(String name) {
         List<Inventory> searchedItemsByInventoryType = inventoryRepository.searchItemsByInventoryType(name);
         return searchedItemsByInventoryType;
+    }
+
+    @Override
+    public Map<String, String> searchItemsByQuantity() {
+        Map<String, String> map = new HashMap<>();
+        for (Object[] resultValues : inventoryRepository.searchItemsByQuantity()) {
+            map.put(resultValues[0].toString(), resultValues[1].toString());
+        }
+        return map;
     }
 
     @Override
