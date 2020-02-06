@@ -19,8 +19,11 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
     @Query(value = "select v.name as item,count(*) as quantity from inventory as v group by v.name order by count(*) desc", nativeQuery = true)
     List<Object[]> searchItemsByQuantity();
 
-
     @Query(value = "select count(*) from inventory where name=:name", nativeQuery = true)
     int searchQuantityOfParticularItem(@Param("name") String name);
+
+
+    @Query(value = "select distinct type from inventory where name=:name", nativeQuery = true)
+    String searchItemTypeByName(@Param("name") String name);
 
 }

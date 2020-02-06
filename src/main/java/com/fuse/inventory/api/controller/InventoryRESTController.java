@@ -73,7 +73,7 @@ public class InventoryRESTController {
     /*Display the name of item and frequency of that item in inventory*/
     @GetMapping("/searchItemsByQuantity")
     @ApiOperation(value = "Search Items by quantity and display items  and no of the items in the inventory")
-    public Map<String,String>searchItemsByQuantity() {
+    public Map<String, String> searchItemsByQuantity() {
         LOGGER.info("Inside searchItemsByQuantity()");
         return inventoryService.searchItemsByQuantity();
     }
@@ -84,9 +84,18 @@ public class InventoryRESTController {
     public String searchQuantityOfParticularItem(@PathVariable("name") String name) {
         LOGGER.info("Inside searchQuantityOfParticularItem(). Item Name: " + name);
         int leftAmount = inventoryService.searchQuantityOfParticularItem(name);
-        String msg = "Quantity of " + name + " left in the inventory is: " + leftAmount;
-        return msg;
+        return  "Quantity of " + name + " left in the inventory is: " + leftAmount;
     }
+
+
+    /*Update Quantity of Particular Item in the inventory*/
+    @PutMapping("updateQuantityOfParticularItem/{userId}/{itemName}/{newValueOfItem}")
+    @ApiOperation(value = "Update the quantity of particular item")
+    public String updateQuantityOfParticularItem(@PathVariable("userId") String userId, @PathVariable("itemName") String itemName, @PathVariable("newValueOfItem") String newValueOfItem) {
+        LOGGER.info("Inside updateQuantityOfParticularItem(). Item Name: " + itemName + " and Item new Value to update is:" + newValueOfItem);
+        return inventoryService.updateQuantityOfParticularItem(Integer.parseInt(userId), itemName, Integer.parseInt(newValueOfItem));
+    }
+
 
     /*View the Paginated List of Items in the inventory*/
     @GetMapping("/getAllItemsByPages/{pageNumber}/{numberOfElementsPerPage}/{sortBy}")

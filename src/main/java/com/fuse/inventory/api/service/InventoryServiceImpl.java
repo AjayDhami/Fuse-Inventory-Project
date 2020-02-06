@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +108,45 @@ public class InventoryServiceImpl implements InventoryService {
         return searchedQuantityOfParticularItem;
     }
 
-    /*View the Paginated List of Items in the inventory*/
+    @Override
+    @Transactional
+    public String updateQuantityOfParticularItem(int userId, String itemName, int newValueOfItem) {
+        int oldValueOfItem = inventoryRepository.searchQuantityOfParticularItem(itemName);
+        int changeValue = newValueOfItem - oldValueOfItem;
+        String userName = userRepository.findUserNameById(userId);
+        String itemType = inventoryRepository.searchItemTypeByName(itemName);
+        if (itemType == null) {
+            itemType = "UNKNOWN";
+        }
+        String message = null;
+        if (changeValue > 0) {
+            for (int i = 0; i < changeValue; i++) {
+                Inventory newItemToBeAdded = new Inventory();
+                newItemToBeAdded.setName(itemName);
+                newItemToBeAdded.setType(itemType);
+                newItemToBeAdded.setUid(userId);
+                String addedByUserMessage = userName + " has added a new " + itemName + " in the " + itemType + " inventory.";
+                newItemToBeAdded.setAddedby(addedByUserMessage);
+                inventoryRepository.save(newItemToBeAdded);
+            }
+            message = "The quantity of " + itemName + " from " + itemType + " inventory has been increased from " + oldValueOfItem + " to " + newValueOfItem + " by " + userName;
+        } else if (changeValue < 0) {
+            changeValue *= -1;
+            List<Inventory> existingItems = inventoryRepository.searchItemsByName(itemName);
+            for (int i = 0; i < changeValue; i++) {
+                Inventory itemToBeDeleted = existingItems.get(i);
+                inventoryRepository.delete(itemToBeDeleted);
+                message = "The quantity of " + itemName + " from " + itemType + " inventory has been decreased from " + oldValueOfItem + " to " + newValueOfItem + " by " + userName;
+            }
+
+        } else {
+            message = "No changes made to the item " + itemName + " from " + itemType + " inventory by " + userName;
+        }
+
+        return message;
+    }
+
+
     @Override
     public Page<Inventory> getAllItemsByPages(int pageNumber, int numberOfElementsPerPage, String sortBy) {
         return inventoryRepository.findAll(PageRequest.of(pageNumber, numberOfElementsPerPage, Sort.by(sortBy)));
