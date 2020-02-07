@@ -24,7 +24,7 @@ public class InventoryRESTController {
     @PostMapping("/saveItem")
     @ApiOperation(value = "Save new Item to the Inventory")
     public Inventory saveItem(@RequestBody Inventory item) {
-        LOGGER.info("Inside saveItem(). Item: " + item);
+        LOGGER.info("Inside saveItem(). Item to be saved is: " + item);
         return inventoryService.saveItem(item);
     }
 
@@ -39,7 +39,7 @@ public class InventoryRESTController {
     @GetMapping("/getItemById/{id}")
     @ApiOperation(value = "Get particular Item and its details from Inventory using provided Item ID")
     public Inventory getItemById(@PathVariable("id") int itemId) {
-        LOGGER.info("Inside getItemById(). Item Id: " + itemId);
+        LOGGER.info("Inside getItemById(). Get Item details of Item whose Id is: " + itemId);
         return inventoryService.getItemById(itemId);
     }
 
@@ -47,7 +47,8 @@ public class InventoryRESTController {
     @PutMapping("/updateItem/{id}")
     @ApiOperation(value = "Update particular Item Details by using provided Item ID and save that Item to Inventory")
     public Inventory updateItem(@PathVariable("id") int itemId, @RequestBody Inventory item) {
-        LOGGER.info("Inside updateItem(). Inventory: " + item);
+        LOGGER.info("Inside updateItem(). Update item details of item with Id: " + itemId);
+        LOGGER.info("Inside updateItem(). New Item Details to be updated is: " + item);
         return inventoryService.updateItem(itemId, item);
     }
 
@@ -55,7 +56,7 @@ public class InventoryRESTController {
     @DeleteMapping("deleteItem/{id}")
     @ApiOperation(value = "Delete particular Item and its details from Inventory using provided Item ID")
     public void deleteItem(@PathVariable("id") int itemId) {
-        LOGGER.info("Inside deleteItem(). Item Id: " + itemId);
+        LOGGER.info("Inside deleteItem(). Delete Item whose Item Id is: " + itemId);
         inventoryService.deleteItem(itemId);
     }
 
@@ -63,7 +64,7 @@ public class InventoryRESTController {
     @ApiOperation(value = "Search Items from Inventory using provided Item Name and display those results")
     @GetMapping("/searchItemsByName/{name}")
     public List<Inventory> searchItemsByName(@PathVariable("name") String name) {
-        LOGGER.info("Inside searchItemsByName(). Item Name: " + name);
+        LOGGER.info("Inside searchItemsByName(). Search the Items with Name: " + name);
         return inventoryService.searchItemsByName(name);
     }
 
@@ -71,7 +72,7 @@ public class InventoryRESTController {
     @GetMapping("/searchItemsByInventoryType/{name}")
     @ApiOperation(value = "Search Items from Inventory using provided Inventory Type and display those results")
     public List<Inventory> searchItemsByInventoryType(@PathVariable("name") String name) {
-        LOGGER.info("Inside searchItemsByInventoryType(). Item Name: " + name);
+        LOGGER.info("Inside searchItemsByInventoryType(). Search the Items with Inventory Type: " + name);
         return inventoryService.searchItemsByInventoryType(name);
     }
 
@@ -80,7 +81,7 @@ public class InventoryRESTController {
     @GetMapping("/searchItemsByQuantity/{quantityOfItem}")
     @ApiOperation(value = "Search Items from Inventory using provided Quantity and display the corresponding items(s)")
     public List<String> searchItemsByQuantity(@PathVariable("quantityOfItem") String quantityOfItem) {
-        LOGGER.info("Inside searchItemsByInventoryType(). Quantity of Item: " + quantityOfItem);
+        LOGGER.info("Inside searchItemsByInventoryType(). Search the Item with Quantity of Item: " + quantityOfItem);
         return inventoryService.searchItemsByQuantity(Integer.parseInt(quantityOfItem));
     }
 
@@ -88,7 +89,7 @@ public class InventoryRESTController {
     @GetMapping("/showItemsNameAndQuantityOfItem")
     @ApiOperation(value = "Display items and corresponding frequency of those items in the inventory")
     public Map<String, String> showItemsNameAndQuantityOfItem() {
-        LOGGER.info("Inside showItemsNameAndQuantityOfItem()");
+        LOGGER.info("Inside showItemsNameAndQuantityOfItem(). Display the items and their corresponding quantities");
         return inventoryService.showItemsNameAndQuantityOfItem();
     }
 
@@ -96,7 +97,7 @@ public class InventoryRESTController {
     @GetMapping("/searchQuantityOfParticularItem/{name}")
     @ApiOperation(value = "Search Quantity from Inventory of particular Item and display the result")
     public String searchQuantityOfParticularItem(@PathVariable("name") String name) {
-        LOGGER.info("Inside searchQuantityOfParticularItem(). Item Name: " + name);
+        LOGGER.info("Inside searchQuantityOfParticularItem(). Search Quantity of Item with Name: " + name);
         int leftAmount = inventoryService.searchQuantityOfParticularItem(name);
         return "Quantity of " + name + " left in the inventory is: " + leftAmount;
     }
@@ -105,7 +106,7 @@ public class InventoryRESTController {
     @PutMapping("updateQuantityOfParticularItem/{userId}/{itemName}/{newValueOfItem}")
     @ApiOperation(value = "Update the quantity of particular item")
     public String updateQuantityOfParticularItem(@PathVariable("userId") String userId, @PathVariable("itemName") String itemName, @PathVariable("newValueOfItem") String newValueOfItem) {
-        LOGGER.info("Inside updateQuantityOfParticularItem(). Item Name: " + itemName + " and Item new Value to update is:" + newValueOfItem);
+        LOGGER.info("Inside updateQuantityOfParticularItem(). Item Name is: " + itemName + " and its Quantity is to be updated to :" + newValueOfItem);
         return inventoryService.updateQuantityOfParticularItem(Integer.parseInt(userId), itemName, Integer.parseInt(newValueOfItem));
     }
 
@@ -113,6 +114,7 @@ public class InventoryRESTController {
     @GetMapping("/getAllItemsByPages/{pageNumber}/{numberOfElementsPerPage}/{sortBy}")
     @ApiOperation(value = "View the Paginated List of Items in the inventory")
     public Page<Inventory> getAllItemsByPages(@PathVariable("pageNumber") String pageNumber, @PathVariable("numberOfElementsPerPage") String numberOfElementsPerPage, @PathVariable("sortBy") String sortBy) {
+        LOGGER.info("Inside getAllItemsByPages(). Show the paginated list of items with " + numberOfElementsPerPage + " items per page and sort the page by " + sortBy + " . Currently showing page is: " + pageNumber);
         return inventoryService.getAllItemsByPages(Integer.parseInt(pageNumber), Integer.parseInt(numberOfElementsPerPage), sortBy);
     }
 

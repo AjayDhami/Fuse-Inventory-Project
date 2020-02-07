@@ -22,7 +22,7 @@ public class UserRESTController {
     @PostMapping("/saveUser")
     @ApiOperation(value = "Save new User to User DB")
     public User saveUser(@RequestBody User user) {
-        LOGGER.info("Inside saveUser(). User: " + user);
+        LOGGER.info("Inside saveUser(). User to be saved is: " + user);
         return userService.saveUser(user);
     }
 
@@ -37,7 +37,7 @@ public class UserRESTController {
     @GetMapping("/getUserById/{id}")
     @ApiOperation(value = "Get particular User and its details from User DB using provided User ID")
     public User getUserById(@PathVariable("id") int userId) {
-        LOGGER.info("Inside getUserById(). User Id: " + userId);
+        LOGGER.info("Inside getUserById(). Get User details of User whose Id is: " + userId);
         return userService.getUserById(userId);
     }
 
@@ -45,7 +45,8 @@ public class UserRESTController {
     @PutMapping("/updateUser/{id}")
     @ApiOperation(value = "Update particular User Details by using provided User ID and save that User to User DB")
     public User updateUser(@PathVariable("id") int userId, @RequestBody User user) {
-        LOGGER.info("Inside updateUser(). User: " + user);
+        LOGGER.info("Inside updateUser(). Update user details of user with Id: " + userId);
+        LOGGER.info("Inside updateUser(). New User Details to be updated is: " + user);
         return userService.updateUser(userId, user);
     }
 
@@ -53,7 +54,7 @@ public class UserRESTController {
     @DeleteMapping("deleteUser/{id}")
     @ApiOperation(value = "Delete particular User and its details from User DB using provided User ID")
     public void deleteUser(@PathVariable("id") int userId) {
-        LOGGER.info("Inside deleteUser(). User Id: " + userId);
+        LOGGER.info("Inside deleteUser(). Delete User whose User Id is: " + userId);
         userService.deleteUser(userId);
     }
 }
